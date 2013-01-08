@@ -191,12 +191,13 @@ bool csvparser::operator()(const char *&buf,int len) // {{{
       run=csvFSM::next(state,csvFSM::Echar(*buf),trans);
     }
     if (!run) {
-#ifdef DEBUG
       csvFSM::ReadError *err=boost::get<csvFSM::ReadError>(&state);
       if (err) {
+#ifdef DEBUG
         fprintf(stderr,"csv parse error: %s\n",err->type);
-      }
 #endif
+        errmsg=err->type;
+      }
       return true;
     }
     buf++;
